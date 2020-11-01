@@ -1,0 +1,78 @@
+#!/bin/bash
+
+echo "new shining theme on the weay..."
+while getopts f:w option
+do
+case "${option}"
+in
+f) wp=${OPTARG};;
+w) sw=1;;
+?) echo "No -${OPTARG} argument found.";; 
+esac
+done
+
+if [ -z "$wp" ]
+then
+      echo "file [-f] parameter is mandatory. task failed..."
+      exit 1
+fi
+
+if [ -z "$sw" ]
+then
+    echo "skipping wallpaper change..."
+else
+    echo "changing wallpaper to $wp..."
+    nitrogen --force-setter=xinerama  --head=0  --save --set-scaled $wp 
+    nitrogen --force-setter=xinerama  --head=1  --save --set-scaled $wp
+fi
+
+echo "creating new color scheme..."
+wal -n -q -i $wp
+
+echo "applying new color scheme..."
+awk '
+    BEGIN       {p=1}
+    /^! COLOR_STARTS/   {print;system("cat /home/nikola/.cache/wal/colors.Xresources");p=0}
+    /^! COLOR_ENDS/     {p=1}
+    p' ~/.Xresources > testfile.tmp && mv testfile.tmp ~/.Xresources 
+
+
+echo "updateing status theme..."
+themeFile='/home/nikola/.config/i3status-rs/themes/customtheme.tomi'
+
+grep -m 1 "*color2:  #" .Xresources | awk '{print "idle_bg = \"" $NF "\""}' > $themeFile
+grep -m 1 "*color0:  #" .Xresources | awk '{print "idle_fg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color7:  #" .Xresources | awk '{print "info_bg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color8:  #" .Xresources | awk '{print "info_fg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color14:  #" .Xresources | awk '{print "good_bg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color0:  #" .Xresources | awk '{print "good_fg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color11:  #" .Xresources | awk '{print "warning_bg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color0:  #" .Xresources | awk '{print "warning_fg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color10:  #" .Xresources | awk '{print "critical_bg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color0:  #" .Xresources | awk '{print "critical_fg = \"" $NF "\""}' >> $themeFile
+grep -m 1 "*color3:  #" .Xresources | awk '{print "separator = \"\\ue0b2\""}' >> $themeFile
+grep -m 1 "*color3:  #" .Xresources | awk '{print "separator_bg = \"auto\""}' >> $themeFile
+grep -m 1 "*color3:  #" .Xresources | awk '{print "separator_fg = \"auto\""}' >> $themeFile
+grep -m 1 "*color3:  #" .Xresources | awk '{print "alternating_tint_bg = \"#001720\""}' >> $themeFile
+grep -m 1 "*color3:  #" .Xresources | awk '{print "alternating_tint_fg = \"#282A36\""}' >> $themeFile
+
+
+echo "updateing change layout dmenu script..."
+changeLayoutFile='/home/nikola/repos/my-dmenu/changelayout.sh'
+
+awk '
+    BEGIN       {p=1}
+    /^# COLOR_STARTS/   {print;system("cat /home/nikola/.cache/wal/colors.sh");p=0}
+    /^# COLOR_ENDS/     {p=1}
+    p' $changeLayoutFile > testfilechangelayout.tmp && mv testfilechangelayout.tmp $changeLayoutFile
+
+
+
+echo "restarting xrdb..."
+xrdb ~/.Xresources
+
+echo "restarting window manager..."
+i3 restart
+
+
+echo "all done... enjoy :D"
