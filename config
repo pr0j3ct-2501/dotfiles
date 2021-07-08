@@ -43,9 +43,8 @@ alert = #bd2c40
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = #8d62a9
+content-foreground = #668bd7
 content-background = #292d3e
-
 
 [module/arrow2]
 ; grey to Blue
@@ -98,11 +97,12 @@ font-1 = "UbuntuMono Nerd Font:size=12;3"
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
 font-4 = "Font Awesome 5 Brands:pixelsize=10;1"
+font-5 = NotoEmoji:size=7;
 
-modules-left = ewmh  xwindow 
+modules-left =  ewmh  xwindow 
 ;modules-center = mpd
 ;modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = arrow1  filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date 
+modules-right = arrow1 network arrow3 filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date
 
 tray-position = right
 tray-padding = 2
@@ -157,14 +157,16 @@ font-1 = "UbuntuMono Nerd Font:size=12;3"
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
 font-4 = "Font Awesome 5 Brands:pixelsize=10;1"
+font-5 = NotoEmoji:scale=15;
 
-modules-left = ewmh  xwindow 
+modules-left =  ewmh  xwindow 
 ;modules-center = mpd
 ;modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = arrow1  filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date
+modules-right = arrow1 network arrow3 filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date
 
 tray-position = right
 tray-padding = 2
+
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
@@ -189,12 +191,13 @@ label-font = 3
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
-
+format-prefix-font =3
 format-prefix = " key:"
 format-prefix-foreground = ${colors.foreground}
 format-prefix-background = ${colors.background3}
 format-foreground = ${colors.foreground}
 format-background = ${colors.background3}
+
 
 label-layout = %layout%
 ;label-layout-underline = #3ecfb2
@@ -208,7 +211,9 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
+label-font = 3
 
+label-mounted-font = 3
 label-mounted = " hdd%{F#ffffff}%mountpoint%%{F-}: %percentage_used%%"
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground}
@@ -414,7 +419,7 @@ label = "%date% %time% "
 
 [module/pulseaudio]
 type = internal/pulseaudio
- 
+ format-volume-font =3
 format-volume =  <label-volume> <bar-volume> 
 label-volume =  " vol: %percentage%%"
 label-volume-foreground = ${colors.foreground} 
@@ -628,3 +633,15 @@ label-empty-padding = 1
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
 
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = enp3s0  
+interval = 1.0
+label-connected-font = 3
+label-connected = "  ↑%downspeed% ↓%upspeed%  "
+label-disconnected = disconnected
+format-connected-foreground = ${colors.foreground}
+format-connected-background = ${colors.background2}
