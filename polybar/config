@@ -29,6 +29,8 @@ foreground3 = #8d62a9
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
+
+
 ################################################################################
 ###############################################################################
 ############                       MODULES ARROWS                     ############
@@ -39,16 +41,15 @@ alert = #bd2c40
 [module/arrow1]
 ; grey to Blue
 type = custom/text
-content = "%{T2} %{T-}"
+content = "%{T5} %{T-}"
 content-font = 2
-content-foreground = #8d62a9
+content-foreground = #668bd7
 content-background = #292d3e
-
 
 [module/arrow2]
 ; grey to Blue
 type = custom/text
-content = "%{T2} %{T-}"
+content = "%{T5} %{T-}"
 content-font = 2
 content-foreground = #668bd7
 content-background = #8d62a9
@@ -56,8 +57,7 @@ content-background = #8d62a9
 [module/arrow3]
 ; grey to Blue
 type = custom/text
-content = "%{T2} %{T-}"
-content-font = 2
+content = "%{T5} %{T-}"
 content-foreground = #8b62a9
 content-background = #668bd7
 
@@ -96,11 +96,13 @@ font-1 = "UbuntuMono Nerd Font:size=12;3"
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
 font-4 = "Font Awesome 5 Brands:pixelsize=10;1"
+font-5 = NotoEmoji:size=7;
+font-6 = "Font Awesome 5 Free:style=Regular:pixelsize=16;1"
 
-modules-left = ewmh  xwindow 
+modules-left =  ewmh  xwindow 
 ;modules-center = mpd
 ;modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = arrow1  filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date 
+modules-right =   network   filesystem     pulseaudio   xkeyboard   memory   cpu     eth     temperature   docker     date
 
 tray-position = right
 tray-padding = 2
@@ -155,14 +157,17 @@ font-1 = "UbuntuMono Nerd Font:size=12;3"
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
 font-4 = "Font Awesome 5 Brands:pixelsize=10;1"
+font-5 = NotoEmoji:scale=15;
+font-6 = "Font Awesome 5 Free:style=Regular:pixelsize=16;1"
 
-modules-left = ewmh  xwindow 
+modules-left =  ewmh  xwindow 
 ;modules-center = mpd
 ;modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = arrow1  filesystem  arrow2  pulseaudio arrow3 xkeyboard arrow2 memory arrow3 cpu  arrow2  eth  arrow3  temperature arrow2 docker  arrow3  date
+modules-right =   network   filesystem     pulseaudio   xkeyboard   memory   cpu     eth     temperature   docker     date
 
 tray-position = right
 tray-padding = 2
+
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
@@ -187,38 +192,47 @@ label-font = 3
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
-
-format-prefix = " key:"
+format-prefix-font = 3
+format-prefix-underline = ${colors.background3}
+format-prefix = "key:"
 format-prefix-foreground = ${colors.foreground}
-format-prefix-background = ${colors.background3}
+;format-prefix-background = ${colors.background3}
 format-foreground = ${colors.foreground}
-format-background = ${colors.background3}
-
+;format-background = ${colors.background3}
+label-layout-underline = ${colors.background3}
+label-layout-font = 3
 label-layout = %layout%
-;label-layout-underline = #3ecfb2
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.background3}
+
 label-indicator-underline = ${colors.foreground}
+
+format-margin = 1
+
 
 [module/filesystem]
 type = internal/fs
 interval = 25
 
 mount-0 = /
+label-font = 3
 
-label-mounted = " hdd%{F#ffffff}%mountpoint%%{F-}: %percentage_used%%"
+label-mounted-font = 3
+
+label-mounted-margin = 1
+label-mounted-underline = ${colors.background3}
+label-mounted = "hdd%{F#ffffff}%mountpoint%%{F-}: %percentage_used%%"
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground}
 label-mounted-foreground = ${colors.foreground}
-label-unmounted-background = ${colors.background}
-label-mounted-background = ${colors.background3}
+
+;label-unmounted-background = ${colors.background}
+;label-mounted-background = ${colors.background3}
  
 label-layout = %layout% 
 label-indicator-padding = 2
 label-indicator-margin = 1
-label-indicator-background = ${colors.background2}
+;label-indicator-background = ${colors.background2}
 label-indicator-underline = ${colors.foreground2}
+;label-mounted-padding = 1
 
 [module/bspwm]
 type = internal/bspwm
@@ -318,37 +332,56 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " cpu:"
+format-prefix-font = 3
+;format-prefix-padding = 1
+format-prefix-underline = ${colors.background3}
+format-prefix = "cpu:"
 format-prefix-foreground = ${colors.foreground} 
-format-prefix-background = ${colors.background3} 
+;format-prefix-background = ${colors.background3} 
 
 format-foreground = ${colors.foreground}
-format-background = ${colors.background3}
-label = %percentage:2%%
+;format-background = ${colors.background3}
+label-font = 3
+label = %percentage:2%
+label-underline = ${colors.background3}
+;label-padding = 1
+format-margin = 1
 
 [module/docker]
 type = custom/script
 exec =  {  docker ps -q | wc -l;  docker ps -a -q | wc -l; } | paste -d"/" -s
 interval = 1
-format-prefix = " docker:"
+format-prefix-font = 3
+format-prefix-underline = ${colors.background2}
+format-prefix = "docker:"
 format-prefix-foreground = ${colors.foreground} 
-format-prefix-background = ${colors.background2} 
+;format-prefix-background = ${colors.background2} 
 
 format-foreground = ${colors.foreground}
-format-background = ${colors.background2}
+;format-background = ${colors.background2}
+
+format-margin = 1
+label-underline = ${colors.background2} 
+label-font = 3
 label = "%output%"
 
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " mem:"
+format-prefix-font = 3
+format-prefix-underline = ${colors.background2}
+format-prefix = "mem:"
 format-prefix-foreground = ${colors.foreground} 
-format-prefix-background = ${colors.background2} 
+;format-prefix-background = ${colors.background2} 
 
 format-foreground = ${colors.foreground}
-format-background = ${colors.background2}
+;format-background = ${colors.background2}
+label-font = 3
+label-underline = ${colors.background2} 
 label = %percentage_used%%
+
+;format-margin = 1
 format = <label> 
 
 
@@ -378,13 +411,17 @@ ramp-signal-foreground = ${colors.foreground-alt}
 type = internal/network
 interface = enp3s0
 interval = 3.0
-
-format-connected-prefix = " IP:"
+;format-connected-prefix-padding-left = 1 
+format-connected-underline = ${colors.background2}
+format-connected-prefix-font = 3
+format-connected-prefix = " ip:"
 format-connected-prefix-foreground = ${colors.foreground}
+label-connected-font = 3
 label-connected = %local_ip%
 format-connected-foreground = ${colors.foreground}
-format-connected-background = ${colors.background2}
+;format-connected-background = ${colors.background2}
 
+format-connected-margin = 1
 format-disconnected = "disconected"
 format-disconnected-underline = ${colors.background2}
 label-disconnected = %ifname% disconnected
@@ -397,28 +434,33 @@ type = internal/date
 interval = 5
 
 date =
-date-alt = " %Y-%m-%d"
+date-alt = "%Y-%m-%d"
 
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+;format-prefix = " "
+format-prefix-padding-left = 1
+format-prefix-underline = ${colors.background3}
 format-prefix-foreground = ${colors.foreground}
 
+format-underline = ${colors.background3}
 format-foreground = ${colors.foreground} 
-format-background = ${colors.background3} 
-
+;format-background = ${colors.background3} 
+label-font = 3
 label = "%date% %time% "
 
 [module/pulseaudio]
 type = internal/pulseaudio
- 
+format-volume-font =3
 format-volume =  <label-volume> <bar-volume> 
-label-volume =  " vol: %percentage%%"
+label-volume =  "  vol: %percentage%%"
 label-volume-foreground = ${colors.foreground} 
  
 format-volume-foreground =${colors.foreground} 
-format-volume-background  =${colors.background2} 
+
+format-volume-underline = ${colors.background2}
+;format-volume-background  =${colors.background2} 
  
 
 
@@ -508,16 +550,21 @@ animation-discharging-framerate = 750
 type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
+format-font = 3
+;format-prefix-padding-left = 1
 
-format = " cpu temp: <label>"
+format-prefix-underline = ${colors.background3}
+format-prefix = "t: "
+format = "<label>"
 format-warn = <label-warn>
 format-warn-underline = ${colors.background2}
-
+label-font = 3
+label-underline = ${colors.background3}
 label = %temperature-c%
 format-foreground = ${colors.foreground} 
-format-background = ${colors.background3} 
+;format-background = ${colors.background3} 
 
-
+label-warn-font = 3
 label-warn = %temperature-c%
 label-warn-foreground = ${colors.foreground}
 label-warn-background = #f00
@@ -590,7 +637,7 @@ icon-6 = 7;
 icon-7 = 8;
 icon-8 = 9;
 icon-9 = 10;
-
+format-margin = 1
 format = <label-state>
 label-monitor = %name%
 
@@ -626,3 +673,16 @@ label-empty-padding = 1
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
 
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = enp3s0  
+interval = 1.0
+label-connected-font = 3
+label-connected = "  ↑%downspeed% ↓%upspeed%  "
+label-disconnected = disconnected
+format-connected-foreground = ${colors.foreground}
+format-connected-underline = ${colors.background2}
+;format-connected-background = ${colors.background2}
