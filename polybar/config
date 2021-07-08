@@ -468,13 +468,13 @@ label-muted =  muted
 label-muted-foreground = #666
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #8D62A9
-bar-volume-foreground-1 = #935692
-bar-volume-foreground-2 = #984A7B
-bar-volume-foreground-3 = #9E3F64
-bar-volume-foreground-4 = #A3334C
-bar-volume-foreground-5 = #A92735
-bar-volume-foreground-6 = #AE1B1E
+bar-volume-foreground-0 = #668BD7
+bar-volume-foreground-1 = #7D7EC7
+bar-volume-foreground-2 = #9471B7
+bar-volume-foreground-3 = #AC64A7
+bar-volume-foreground-4 = #C35697
+bar-volume-foreground-5 = #DA4987
+bar-volume-foreground-6 = #F13C77
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
@@ -482,7 +482,7 @@ bar-volume-fill = ─
 bar-volume-fill-font = 2 
 bar-volume-empty = ─
 bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground3}
+bar-volume-empty-foreground = ${colors.foreground}
 bar-volume-fill-foreground = ${colors.foreground}
 
 [module/alsa]
